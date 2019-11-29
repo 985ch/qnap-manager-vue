@@ -31,18 +31,19 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  // 登陆界面
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  // 404界面
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
+  // 首页
   {
     path: '/',
     component: Layout,
@@ -51,10 +52,48 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-
+  // 作品管理
+  {
+    path: '/title',
+    component: Layout,
+    redirect: '/title/home',
+    name: 'Title',
+    meta: { title: '作品管理', icon: 'education' },
+    children: [
+      {
+        path: '/title/home',
+        name: 'TitleHome',
+        component: () => import('@/views/form/index'),
+        meta: { title: '作品概览', icon: 'list' }
+      },
+      {
+        path: '/title/search',
+        name: 'TitleSearch',
+        component: () => import('@/views/form/index'),
+        meta: { title: '作品查询', icon: 'search' }
+      },
+      {
+        path: '/title/archive',
+        name: 'TitleArchive',
+        component: () => import('@/views/form/index'),
+        meta: { title: '作品归档', icon: 'excel' }
+      }
+    ]
+  },
+  // 系统配置
+  {
+    path: '/config',
+    component: Layout,
+    children: [{
+      path: 'config',
+      name: 'Config',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '系统配置', icon: 'form' }
+    }]
+  },
   {
     path: '/example',
     component: Layout,

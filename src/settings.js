@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: 'NAS管理工具',
 
   /**
    * @type {boolean} true | false
