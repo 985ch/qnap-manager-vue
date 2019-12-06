@@ -32,8 +32,7 @@ const actions = {
   // user login
   async login({ commit }, userInfo) {
     const { username, password } = userInfo
-    const res = await login(username.trim(), password)
-    const { token, data } = res.data
+    const { token, data } = await login(username.trim(), password)
     commit('SET_TOKEN', token)
     commit('SET_USERINFO', data)
   },
@@ -41,7 +40,7 @@ const actions = {
   // get user info
   async getInfo({ commit, state }) {
     const data = await getInfo(state.token)
-    commit('SET_USERINFO', data.data)
+    commit('SET_USERINFO', data)
   },
 
   // user logout
