@@ -142,7 +142,7 @@ export default {
     },
     // 显示添加规则对话框
     showEditRuleDlg(index) {
-      if (index>=0) {
+      if (index >= 0) {
         this.form = _.clone(this.list[index])
       } else {
         this.form = {

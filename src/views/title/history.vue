@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true,
+      listLoading: true
     }
   },
   created() {
