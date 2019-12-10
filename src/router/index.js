@@ -76,10 +76,16 @@ export const constantRoutes = [
         meta: { title: '作品查询', icon: 'search' }
       },
       {
+        path: '/title/history',
+        name: 'TitleHistory',
+        component: () => import('@/views/title/history'),
+        meta: { title: '归档记录', icon: 'list' }
+      },
+      {
         path: '/title/archive',
         name: 'TitleArchive',
-        component: () => import('@/views/form/index'),
-        meta: { title: '作品归档', icon: 'excel' }
+        component: () => import('@/views/title/manager'),
+        meta: { title: '归档设置', icon: 'excel' }
       }
     ]
   },
@@ -90,7 +96,7 @@ export const constantRoutes = [
     children: [{
       path: 'config',
       name: 'Config',
-      component: () => import('@/views/dashboard/index'),
+      component: () => import('@/views/system/index'),
       meta: { title: '系统配置', icon: 'form' }
     }]
   },
@@ -115,20 +121,6 @@ export const constantRoutes = [
       }
     ]
   },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
   {
     path: '/nested',
     component: Layout,
