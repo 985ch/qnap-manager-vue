@@ -6,7 +6,7 @@ const state = {
   token: getToken(),
   name: null,
   nick: null,
-  roles: []
+  roles: null
 }
 
 const mutations = {
@@ -18,7 +18,7 @@ const mutations = {
       removeToken()
       state.name = null
       state.nick = null
-      state.roles = []
+      state.roles = null
     }
   },
   SET_USERINFO: (state, { name, nick, permissions }) => {
@@ -32,22 +32,26 @@ const actions = {
   // user login
   async login({ commit }, userInfo) {
     const { username, password } = userInfo
-    const { token, data } = await login(username.trim(), password)
+    const { token } = await login(username.trim(), password)
     commit('SET_TOKEN', token)
-    commit('SET_USERINFO', data)
   },
 
   // get user info
   async getInfo({ commit, state }) {
     const data = await getInfo(state.token)
     commit('SET_USERINFO', data)
+    return state
   },
 
   // user logout
-  async logout({ commit, state }) {
+  async logout({ commit, state, dispatch }) {
     await logout(state.token)
     commit('SET_TOKEN', '')
     resetRouter()
+
+    // reset visited views and cached views
+    // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+    dispatch('tagsView/delAllViews', null, { root: true })
   },
 
   // remove token

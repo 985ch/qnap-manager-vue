@@ -1,23 +1,34 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <breadcrumb class="breadcrumb-container" />
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <template v-if="device!=='mobile'">
+        <search id="header-search" class="right-menu-item" />
+
+        <error-log class="errLog-container right-menu-item hover-effect" />
+
+        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+
+        <el-tooltip content="Global Size" effect="dark" placement="bottom">
+          <size-select id="size-select" class="right-menu-item hover-effect" />
+        </el-tooltip>
+
+      </template>
+
+      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <span class="avatar-text">当前用户：{{ name }}</span>
+          <span>当前用户：{{ nick }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <el-dropdown-menu slot="dropdown">
           <router-link to="/">
-            <el-dropdown-item>
-              首页
-            </el-dropdown-item>
+            <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">登出</span>
+            <span style="display:block;" @click="logout">登出账号</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -29,16 +40,25 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import ErrorLog from '@/components/ErrorLog'
+import Screenfull from '@/components/Screenfull'
+import SizeSelect from '@/components/SizeSelect'
+import Search from '@/components/HeaderSearch'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    ErrorLog,
+    Screenfull,
+    SizeSelect,
+    Search
   },
   computed: {
     ...mapGetters([
       'sidebar',
-      'name'
+      'nick',
+      'device'
     ])
   },
   methods: {
@@ -78,6 +98,11 @@ export default {
     float: left;
   }
 
+  .errLog-container {
+    display: inline-block;
+    vertical-align: top;
+  }
+
   .right-menu {
     float: right;
     height: 100%;
@@ -112,9 +137,13 @@ export default {
         margin-top: 5px;
         position: relative;
 
-        .avatar-text {
-          font-size: 16px;
+        .user-avatar {
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
         }
+
         .el-icon-caret-bottom {
           cursor: pointer;
           position: absolute;

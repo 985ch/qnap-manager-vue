@@ -20,3 +20,10 @@ export function setTitlesPath(list) {
     data: { paths: JSON.stringify(list) }
   })
 }
+export function setArchiveServer(data) {
+  return request({
+    url: '/system/setArchiveServer',
+    method: 'post',
+    data
+  })
+}

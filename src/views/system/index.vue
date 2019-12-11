@@ -13,6 +13,17 @@
         <array-input :list="titlesPath" listname="titles_path" placeholder="请输入完整路径" defaultitem="/新路径" />
         <el-button type="primary" @click="submitTitlesPath()">提交</el-button>
       </el-tab-pane>
+      <el-tab-pane label="归档服务器配置" name="archive_server">
+        <el-form :model="archiveServer">
+          <el-form-item label="服务器地址">
+            <el-input v-model="archiveServer.host" placeholder="请输入服务器完整地址" />
+          </el-form-item>
+          <el-form-item label="服务器密钥">
+            <el-input v-model="archiveServer.key" placeholder="请输入用于上传数据的密钥" />
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" @click="submitArchiveServer()">提交</el-button>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -29,11 +40,15 @@ export default {
       activeConfig: 'archive_path',
       archivePath: [],
       titlesPath: [],
+      archiveServer: {
+        host: '',
+        key: ''
+      },
       isLoading: true
     }
   },
   computed: {
-    ...mapGetters('system', ['archive_path', 'titles_path'])
+    ...mapGetters('system', ['archive_path', 'titles_path', 'archive_server'])
   },
   async created() {
     await this.fetchData()
@@ -45,6 +60,7 @@ export default {
       await this.$store.dispatch('system/loadConfig')
       this.archivePath = this.archive_path
       this.titlesPath = this.titles_path
+      this.archiveServer = this.archive_server
       this.isLoading = false
     },
     // 添加新路径
@@ -62,6 +78,14 @@ export default {
     // 提交资源路径
     async submitTitlesPath() {
       await this.$store.dispatch('system/setTitlesPath', this.titlesPath)
+      this.$message({
+        message: '提交成功',
+        type: 'success'
+      })
+    },
+    // 提交归档服务器设置
+    async submitArchiveServer() {
+      await this.$store.dispatch('system/setArchiveServer', this.archiveServer)
       this.$message({
         message: '提交成功',
         type: 'success'
