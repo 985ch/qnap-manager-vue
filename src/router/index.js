@@ -84,36 +84,30 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  // 作品管理
+  // 资源管理
   {
-    path: '/title',
+    path: '/resource',
     component: Layout,
-    redirect: '/title/home',
-    name: 'Title',
-    meta: { title: '作品管理', icon: 'education' },
+    redirect: '/resource/home',
+    name: 'Resource',
+    meta: { title: '资源管理', icon: 'education' },
     children: [
       {
-        path: '/title/home',
-        name: 'TitleHome',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '作品概览', icon: 'list' }
+        path: '/resource/home',
+        name: 'ResourceHome',
+        component: () => import('@/views/resource/index'),
+        meta: { title: '资源列表', icon: 'list' }
       },
       {
-        path: '/title/search',
-        name: 'TitleSearch',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '作品查询', icon: 'search' }
-      },
-      {
-        path: '/title/history',
-        name: 'TitleHistory',
-        component: () => import('@/views/title/history'),
+        path: '/resource/history',
+        name: 'ResourceHistory',
+        component: () => import('@/views/resource/history'),
         meta: { title: '归档记录', icon: 'list' }
       },
       {
-        path: '/title/archive',
-        name: 'TitleArchive',
-        component: () => import('@/views/title/manager'),
+        path: '/resource/archive',
+        name: 'ResourceArchive',
+        component: () => import('@/views/resource/manager'),
         meta: { title: '归档设置', icon: 'excel', roles: ['admin'] }
       }
     ]

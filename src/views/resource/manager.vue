@@ -81,7 +81,7 @@
           <el-autocomplete
             v-model="form.target"
             class="inline-input"
-            :fetch-suggestions="queryTitlesPath"
+            :fetch-suggestions="queryResourcePath"
             placeholder="选择目标路径"
           />
         </el-form-item>
@@ -127,7 +127,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('system', ['archive_path', 'titles_path'])
+    ...mapGetters('system', ['archive_path', 'resource_path'])
   },
   created() {
     this.fetchData()
@@ -169,9 +169,9 @@ export default {
     queryArchivePath(str, cb) {
       cb(this.filterList(this.archive_path, str))
     },
-    // 查询符合条件的作品路径
-    queryTitlesPath(str, cb) {
-      cb(this.filterList(this.titles_path, str))
+    // 查询符合条件的资源路径
+    queryResourcePath(str, cb) {
+      cb(this.filterList(this.resource_path, str))
     },
     // 测试正则表达式
     testRegular() {

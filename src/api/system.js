@@ -13,9 +13,9 @@ export function setArchivePath(list) {
     data: { paths: JSON.stringify(list) }
   })
 }
-export function setTitlesPath(list) {
+export function setResourcePath(list) {
   return request({
-    url: '/system/setTitlesPath',
+    url: '/system/setResourcePath',
     method: 'post',
     data: { paths: JSON.stringify(list) }
   })

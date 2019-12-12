@@ -9,9 +9,9 @@
         <array-input :list="archivePath" listname="archive_path" placeholder="请输入完整路径" defaultitem="/新路径" />
         <el-button type="primary" @click="submitArchivePath()">提交</el-button>
       </el-tab-pane>
-      <el-tab-pane label="资源路径" name="titles_path">
-        <array-input :list="titlesPath" listname="titles_path" placeholder="请输入完整路径" defaultitem="/新路径" />
-        <el-button type="primary" @click="submitTitlesPath()">提交</el-button>
+      <el-tab-pane label="资源路径" name="resource_path">
+        <array-input :list="resourcePath" listname="resource_path" placeholder="请输入完整路径" defaultitem="/新路径" />
+        <el-button type="primary" @click="submitResourcePath()">提交</el-button>
       </el-tab-pane>
       <el-tab-pane label="归档服务器配置" name="archive_server">
         <el-form :model="archiveServer">
@@ -39,7 +39,7 @@ export default {
     return {
       activeConfig: 'archive_path',
       archivePath: [],
-      titlesPath: [],
+      resourcePath: [],
       archiveServer: {
         host: '',
         key: ''
@@ -48,7 +48,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('system', ['archive_path', 'titles_path', 'archive_server'])
+    ...mapGetters('system', ['archive_path', 'resource_path', 'archive_server'])
   },
   async created() {
     await this.fetchData()
@@ -59,7 +59,7 @@ export default {
       this.isLoading = true
       await this.$store.dispatch('system/loadConfig')
       this.archivePath = this.archive_path
-      this.titlesPath = this.titles_path
+      this.resourcePath = this.resource_path
       this.archiveServer = this.archive_server
       this.isLoading = false
     },
@@ -76,8 +76,8 @@ export default {
       })
     },
     // 提交资源路径
-    async submitTitlesPath() {
-      await this.$store.dispatch('system/setTitlesPath', this.titlesPath)
+    async submitResourcePath() {
+      await this.$store.dispatch('system/setResourcePath', this.resourcePath)
       this.$message({
         message: '提交成功',
         type: 'success'
