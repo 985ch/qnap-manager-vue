@@ -98,15 +98,12 @@
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import { getRules, addRule, editRule, setRuleEnable } from '@/api/archive'
+import { ruleFilter } from '@/utils/filters'
 
 export default {
   filters: {
     ruleFilter(rule) {
-      const rules = {
-        default: '直接复制',
-        files: '复制目录内文件'
-      }
-      return rules[rule]
+      return ruleFilter(rule)
     }
   },
   data() {

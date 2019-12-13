@@ -6,3 +6,10 @@ export function getList() {
     method: 'get'
   })
 }
+
+export function getScanHistory() {
+  return request({
+    url: '/resource/scanHistory',
+    method: 'get'
+  })
+}

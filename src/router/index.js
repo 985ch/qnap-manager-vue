@@ -96,7 +96,13 @@ export const asyncRoutes = [
         path: '/resource/home',
         name: 'ResourceHome',
         component: () => import('@/views/resource/index'),
-        meta: { title: '资源列表', icon: 'list' }
+        meta: { title: '资源列表', icon: 'component' }
+      },
+      {
+        path: '/resource/scan',
+        name: 'ResourceScan',
+        component: () => import('@/views/resource/scan'),
+        meta: { title: '扫描记录', icon: 'chart' }
       },
       {
         path: '/resource/history',

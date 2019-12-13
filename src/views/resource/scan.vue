@@ -8,32 +8,28 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
+      <el-table-column label="ID" width="80">
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="文件或目录">
+      <el-table-column label="资源路径" align="center">
         <template slot-scope="scope">
-          {{ scope.row.file }}
+          {{ scope.row.path }}
         </template>
       </el-table-column>
-      <el-table-column label="归档方案" width="150" align="center">
+      <el-table-column
+        v-for="item in keys"
+        :key="item.key"
+        :label="item.label"
+        width="80"
+        align="center"
+      >
         <template slot-scope="scope">
-          {{ scope.row.rule | ruleFilter }}
+          {{ scope.row[item.key] }}
         </template>
       </el-table-column>
-      <el-table-column label="来源路径" width="150" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.source }}
-        </template>
-      </el-table-column>
-      <el-table-column label="目标路径" width="150" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.dest }}
-        </template>
-      </el-table-column>
-      <el-table-column label="归档时间" width="200" align="center">
+      <el-table-column label="完成时间" width="200" align="center">
         <template slot-scope="scope">
           {{ scope.row.timestamp | timeFilter }}
         </template>
@@ -43,23 +39,28 @@
 </template>
 
 <script>
-import { getHistory } from '@/api/archive'
+import { getScanHistory } from '@/api/resource'
 import { parseTime } from '@/utils'
-import { ruleFilter } from '@/utils/filters'
 
 export default {
   filters: {
     timeFilter(time) {
       return parseTime(time)
-    },
-    ruleFilter(rule) {
-      return ruleFilter(rule)
     }
   },
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      keys: [
+        { key: 'keep', label: '忽略' },
+        { key: 'add', label: '新增' },
+        { key: 'add_failed', label: '新增失败' },
+        { key: 'del', label: '移除' },
+        { key: 'del_failed', label: '移除失败' },
+        { key: 'modify', label: '变更' },
+        { key: 'modify_failed', label: '变更失败' }
+      ]
     }
   },
   created() {
@@ -69,7 +70,7 @@ export default {
     // 拉取数据
     async fetchData() {
       this.listLoading = true
-      this.list = await getHistory()
+      this.list = await getScanHistory()
       this.listLoading = false
     }
   }
