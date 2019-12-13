@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
+import Cookies from 'js-cookie'
 import { getToken } from '@/utils/auth'
 import { errCode } from '@/utils/errcode'
 
@@ -15,7 +16,9 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-
+    if (config.method === 'post') {
+      config.headers['x-csrf-token'] = Cookies.get('csrfToken')
+    }
     if (store.getters.token) {
       config.headers['Token'] = getToken()
     }
