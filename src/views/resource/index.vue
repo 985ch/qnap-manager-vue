@@ -60,8 +60,8 @@ export default {
     }
   },
   computed: {
-    isAdmin(){
-      return checkPermission(['admin']);
+    isAdmin() {
+      return checkPermission(['admin'])
     },
     groupList() {
       const json = {}
@@ -103,17 +103,17 @@ export default {
     // 强制更新目录
     updatePath() {
       this.$confirm('即将重新扫描目录，这将会花费一定时间，确定要重新扫描吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.isLoading = true
-          updatePath(this.curPath).then(()=>{
-            return this.fetchData()
-          });
-        }).catch((e) =>{
-          if(e!=='cancel')throw e
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.isLoading = true
+        updatePath(this.curPath).then(() => {
+          return this.fetchData()
         })
+      }).catch((e) => {
+        if (e !== 'cancel') throw e
+      })
     }
   }
 }
