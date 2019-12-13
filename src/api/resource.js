@@ -13,3 +13,11 @@ export function getScanHistory() {
     method: 'get'
   })
 }
+
+export function updatePath(path) {
+  return request({
+    url: '/resource/update',
+    method: 'post',
+    data: { path }
+  })
+}

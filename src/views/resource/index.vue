@@ -8,6 +8,7 @@
         :value="item"
       />
     </el-select>
+    <el-button v-show="isAdmin" @click="updatePath">重新检查</el-button>
     <el-table
       v-loading="listLoading"
       :data="curList"
@@ -41,8 +42,9 @@
 </template>
 
 <script>
-import { getList } from '@/api/resource'
+import { getList, updatePath } from '@/api/resource'
 import { parseTime } from '@/utils'
+import checkPermission from '@/utils/permission'
 
 export default {
   filters: {
@@ -58,6 +60,9 @@ export default {
     }
   },
   computed: {
+    isAdmin(){
+      return checkPermission(['admin']);
+    },
     groupList() {
       const json = {}
       const list = this.list
@@ -94,6 +99,21 @@ export default {
       this.list = await getList()
       this.curPath = this.resPath[0] || ''
       this.listLoading = false
+    },
+    // 强制更新目录
+    updatePath() {
+      this.$confirm('即将重新扫描目录，这将会花费一定时间，确定要重新扫描吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.isLoading = true
+          updatePath(this.curPath).then(()=>{
+            return this.fetchData()
+          });
+        }).catch((e) =>{
+          if(e!=='cancel')throw e
+        })
     }
   }
 }
