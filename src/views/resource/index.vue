@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { getList, updatePath } from '@/api/resource'
 import { parseTime } from '@/utils'
 import checkPermission from '@/utils/permission'
@@ -60,6 +61,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('system', ['resource_path']),
     isAdmin() {
       return checkPermission(['admin'])
     },
@@ -75,6 +77,9 @@ export default {
       return json
     },
     resPath() {
+      if (this.isAdmin) {
+        return this.resource_path
+      }
       if (!this.list) return []
       const paths = []
       for (const key in this.groupList) {
@@ -97,6 +102,9 @@ export default {
     async fetchData() {
       this.listLoading = true
       this.list = await getList()
+      if (this.isAdmin) {
+        await this.$store.dispatch('system/loadConfig')
+      }
       this.curPath = this.resPath[0] || ''
       this.listLoading = false
     },
